@@ -18,6 +18,7 @@ public class ShapedWindowDemo extends JFrame {
 
         setUndecorated(true);
         setSize(1920,1080);
+//        new change
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
