@@ -1,10 +1,12 @@
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ShapedWindowDemo extends JFrame {
+
+public class ShapedWindowDemo extends JFrame{
     public ShapedWindowDemo() {
         super("ShapedWindow");
         setLayout(new GridBagLayout());
@@ -22,9 +24,13 @@ public class ShapedWindowDemo extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    public static float opacity = 0.2f;
+    public static float opacity = 0.5f;
 
-    public static void main(String[] args) {
+    public static void main(String args[]){
+
+    }
+
+    public static Runnable dimming() {
         /*// Determine what the GraphicsDevice can support.
         GraphicsEnvironment ge =
             GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -70,19 +76,32 @@ public class ShapedWindowDemo extends JFrame {
         Timer timer = new Timer();
 
         timer.scheduleAtFixedRate(new TimerTask() {
-                                      public void run(){
-                                          incrementOpacity(opacity);
-                                          sw.setOpacity(opacity);
-                                      }
-                                  }
-                , 300, 300);
+            public void run(){
+                try {
+                    BrainFlow_BandPowers.logging();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                if (BrainFlow_BandPowers.band_powers[1] > 585){
+                    incrementOpacity(opacity);
+                } else if (BrainFlow_BandPowers.band_powers[1] < 584){
+                    decrementOpacity(opacity);
+                }
+                sw.setOpacity(opacity);
+            }
+        } , 300, 300);
+        return null;
     }
 
-    public static void incrementOpacity(float oldopacity){
-        opacity = oldopacity+=.1;
+    public static void incrementOpacity(float old_opacity){
+        if (opacity <= 0.9){
+            opacity = old_opacity += .1;
+        }
     }
 
-    public static void decrementOpacity(float oldopacity){
-        opacity = oldopacity-=.1;
+    public static void decrementOpacity(float old_opacity){
+        if (opacity >= 0.1){
+            opacity = old_opacity -= .1;
+        }
     }
 }
